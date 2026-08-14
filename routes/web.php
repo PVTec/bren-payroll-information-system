@@ -84,3 +84,20 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/guest/reports', [GuestController::class, 'reports'])->name('guest.reports');
     });
 });
+
+use Illuminate\Support\Facades\Artisan;
+
+Route::get('/setup-db-hakdog', function () {
+    try {
+        // Clear muna lahat ng bulok na cache
+        Artisan::call('config:clear');
+        Artisan::call('cache:clear');
+        
+        // Tapos tsaka natin patakbuhin ang migration
+        Artisan::call('migrate:fresh', ['--force' => true]);
+        
+        return 'Solid! Cache cleared at Database migrated successfully sa Postgres.';
+    } catch (\Exception $e) {
+        return 'Sablay: ' . $e->getMessage();
+    }
+});
