@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     git \
-    && docker-php-ext-install pdo_mysql zip
+    libpq-dev \
+    && docker-php-ext-install pdo_mysql pdo_pgsql zip
 
 # Enable Apache mod_rewrite para gumana ang Laravel routing
 RUN a2enmod rewrite
